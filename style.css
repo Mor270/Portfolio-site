@@ -129,6 +129,18 @@ ul { margin: 0; padding: 0; list-style: none; }
   letter-spacing: 0.06em;
   color: var(--signal-amber);
   margin: 0 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.availability-badge {
+  color: var(--signal-blue);
+  font-size: 0.72rem;
+  border: 1px solid var(--signal-blue);
+  border-radius: 100px;
+  padding: 3px 12px;
 }
 
 .hero-title {
