@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Santé client – démo | Mor Talla DIENG</title>
+<style>
+:root{
+  --bg:#F4F7F2;--surface:#FCFCFB;--ink:#14251C;--ink2:#46564C;--muted:#6B7A71;--line:#DCE6D6;--grid:#E8EEE4;
+  --brand:#0B4A32;--brand2:#1F7A3F;--lime:#9CCB3B;--s1:#1F7A3F;--s2:#C9822B;
+  --good:#1E7B3A;--warn:#A86A00;--crit:#B3261E;
+  --seq0:#EEF6E6;--seq1:#C9E4B4;--seq2:#93C77E;--seq3:#4E9E57;--seq4:#1F7A3F;--seq5:#0B4A32;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1712;--surface:#15211A;--ink:#E7EFE9;--ink2:#B9C7BE;--muted:#93A399;--line:#2A3A30;--grid:#223028;
+    --brand:#0B4A32;--brand2:#5FB673;--s1:#5FB673;--s2:#E0A050;
+    --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;
+    --seq0:#1B2A21;--seq1:#20452D;--seq2:#2B6A3D;--seq3:#3F8F52;--seq4:#68B677;--seq5:#A6DA9F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1712;--surface:#15211A;--ink:#E7EFE9;--ink2:#B9C7BE;--muted:#93A399;--line:#2A3A30;--grid:#223028;
+  --brand:#0B4A32;--brand2:#5FB673;--s1:#5FB673;--s2:#E0A050;
+  --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;
+  --seq0:#1B2A21;--seq1:#20452D;--seq2:#2B6A3D;--seq3:#3F8F52;--seq4:#68B677;--seq5:#A6DA9F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.45}
+header{background:var(--brand);color:#fff;padding:22px 16px 18px;position:relative}
+header:after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;background:linear-gradient(90deg,#0B4A32,#2E9E4F 50%,#9CCB3B)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+header .wrap{padding:0}
+.kick{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#C8E66B;font-weight:600}
+h1{margin:4px 0 4px;font-size:24px;line-height:1.2}
+.sub{opacity:.9;font-size:14px}
+.demo{margin:18px auto 0;background:#FFF4DE;color:#5A3D00;border:1px solid #F0D49A;border-radius:10px;padding:10px 14px;font-size:13px;display:flex;gap:10px;align-items:flex-start}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .demo{background:#3A2C10;color:#F5DDB0;border-color:#6B5321}}
+:root[data-theme="dark"] .demo{background:#3A2C10;color:#F5DDB0;border-color:#6B5321}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:16px 0 4px}
+.filters label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+select,button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px}
+button{cursor:pointer}
+button:hover{border-color:var(--brand2)}
+.grid{display:grid;gap:14px;margin-top:14px}
+.tiles{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.two{grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.card h2{font-size:15px;margin:0 0 2px}
+.card .desc{font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.tile .lab{font-size:12px;color:var(--muted);font-weight:600}
+.tile .val{font-size:28px;font-weight:750;margin:4px 0 2px;letter-spacing:-.01em}
+.tile .delta{font-size:12.5px;color:var(--ink2)}
+.tile .delta b{font-weight:700}
+.chart{position:relative;width:100%}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.axis text{fill:var(--muted);font-size:11px}
+.gridline{stroke:var(--grid);stroke-width:1}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);border-radius:8px;padding:7px 9px;font-size:12px;line-height:1.35;white-space:nowrap;opacity:0;transition:opacity .08s;z-index:5}
+.tip b{font-weight:700}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:6px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 6px}
+td{border-bottom:1px solid var(--grid);padding:8px 6px;white-space:nowrap}
+th{white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.health{display:flex;flex-direction:column;gap:8px}
+.hrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--grid);border-radius:8px}
+.hrow .name{flex:1;font-weight:600}
+.hrow .score{font-variant-numeric:tabular-nums;color:var(--ink2);min-width:56px;text-align:right}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;border:1px solid currentColor;min-width:92px;justify-content:center}
+.b-good{color:var(--good)}.b-warn{color:var(--warn)}.b-crit{color:var(--crit)}
+.risk{display:inline-block;height:8px;border-radius:4px;background:var(--s2);vertical-align:middle;margin-right:6px}
+.result{font-size:13px;color:var(--ink2);margin-top:8px}
+.result b{color:var(--ink)}
+footer{color:var(--muted);font-size:12px;margin:22px auto 28px}
+.toggle{font-size:12.5px;padding:4px 10px;min-height:32px}
+.hide{display:none}
+.row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="kick">Démo · Portfolio Mor Talla DIENG</div>
+  <h1>Santé client – maquette de tableau de bord</h1>
+  <div class="sub">Un fournisseur d'énergie fictif : attrition, réclamations, cohortes, test avec groupe témoin et santé des données.</div>
+</div></header>
+
+<div class="wrap">
+  <div class="demo" role="note"><span aria-hidden="true">⚠</span><span><b>Données entièrement fictives</b>, générées pour illustrer une démarche. Elles ne proviennent d'aucune entreprise et ne reflètent la situation d'aucun fournisseur d'énergie réel.</span></div>
+
+  <div class="filters">
+    <label>Énergie
+      <select id="fEnergie"><option value="all">Toutes</option><option value="elec">Électricité</option><option value="gaz">Gaz</option><option value="dual">Électricité + gaz</option></select>
+    </label>
+    <label>Canal de souscription
+      <select id="fCanal"><option value="all">Tous</option><option value="web">Web</option><option value="tel">Téléphone</option><option value="part">Partenaires</option></select>
+    </label>
+    <button id="themeBtn" type="button" aria-label="Changer de thème">Thème clair / sombre</button>
+  </div>
+
+  <div class="grid tiles" id="tiles"></div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="row-head"><div><h2>Taux de départ mensuel</h2><p class="desc">Part des clients qui résilient chaque mois, sur 12 mois.</p></div>
+      <button class="toggle" type="button" id="tblBtn">Voir le tableau</button></div>
+      <div class="chart" id="cLine"></div>
+      <div class="scroll hide" id="tLine"></div>
+    </div>
+    <div class="card">
+      <h2>Motifs de réclamation</h2><p class="desc">Réclamations du dernier mois, pour 1 000 clients.</p>
+      <div class="chart" id="cBar"></div>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h2>Fidélité par cohorte</h2><p class="desc">Part des clients encore présents, selon leur mois d'arrivée et leur ancienneté.</p>
+      <div class="chart" id="cCohort"></div>
+    </div>
+    <div class="card">
+      <h2>Campagne de fidélisation : test avec groupe témoin</h2><p class="desc">Clients à risque contactés, comparés à un groupe témoin non contacté de même profil. Part encore clients 3 mois après.</p>
+      <div class="chart" id="cTest"></div>
+      <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>Groupe contacté</span><span><span class="sw" style="background:var(--s2)"></span>Groupe témoin</span></div>
+      <p class="result" id="testResult"></p>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h2>Santé des données</h2><p class="desc">Contrôles automatiques avant toute analyse.</p>
+      <div class="health" id="health"></div>
+    </div>
+    <div class="card">
+      <h2>Clients à risque de départ</h2><p class="desc">Les 8 scores les plus élevés (identifiants fictifs).</p>
+      <div class="scroll" id="risk"></div>
+    </div>
+  </div>
+
+  <footer>Maquette réalisée par Mor Talla DIENG pour illustrer une démarche d'analyse. Toutes les valeurs sont simulées.</footer>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // ---------- Données fictives, déterministes ----------
+  function rng(seed){return function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646;};}
+  var MONTHS=['nov.','déc.','janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.'];
+  var EN={all:{n:1,ch:1},elec:{n:.62,ch:.92},gaz:{n:.21,ch:1.18},dual:{n:.17,ch:.78}};
+  var CA={all:{n:1,ch:1},web:{n:.55,ch:1.12},tel:{n:.3,ch:.9},part:{n:.15,ch:1.05}};
+  var MOTIFS=['Facturation','Hausse de prix','Délai de réponse','Compteur et relevé','Changement d\'offre','Prélèvement'];
+  var fmt=function(v,d){return v.toLocaleString('fr-FR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+
+  function build(e,c){
+    var key=(e+c).split('').reduce(function(a,ch){return a+ch.charCodeAt(0);},7);
+    var r=rng(key*97+13);
+    var k=EN[e].ch*CA[c].ch, n=Math.round(48000*EN[e].n*CA[c].n);
+    var churn=MONTHS.map(function(m,i){return +(1.55*k+Math.sin(i/1.7)*.18+(i>8?.12:0)+(r()-.5)*.14).toFixed(2);});
+    var mot=MOTIFS.map(function(m,i){return {m:m,v:+((6.2-i*.85)*(.85+r()*.35)*k).toFixed(1)};}).sort(function(a,b){return b.v-a.v;});
+    var cohorts=[];
+    for(var ci=0;ci<6;ci++){var row=[],ret=100;for(var a=0;a<6;a++){if(ci+a>5){row.push(null);continue;} if(a>0) ret-= (3.2+r()*1.6)*k*(a===1?1.4:1); row.push(Math.round(ret));}cohorts.push({lab:MONTHS[6+ci],row:row});}
+    var ctl=+(80.5-(k-1)*8+(r()-.5)*2).toFixed(1), tgt=+(ctl+4.2+r()*2.2).toFixed(1);
+    var health=[
+      {name:'Complétude',d:'Contrats avec tous les champs clés',v:98.7-r()*1.2,t:[97,93]},
+      {name:'Exactitude',d:'Consommations plausibles',v:99.4-r()*.6,t:[98,95]},
+      {name:'Cohérence',d:'CRM = facturation',v:95.1-r()*3,t:[97,93]},
+      {name:'Fraîcheur',d:'Données de moins de 24 h',v:99.9-r()*.3,t:[99,95]},
+      {name:'Unicité',d:'Clients sans doublon',v:99.2-r()*.8,t:[99.5,98]}
+    ];
+    var segs=e==='all'?['Électricité','Gaz','Électricité + gaz']:[{elec:'Électricité',gaz:'Gaz',dual:'Électricité + gaz'}[e]];
+    var risk=[];for(var i=0;i<8;i++){risk.push({id:'CL-'+(100000+Math.floor(r()*899999)),seg:segs[i%segs.length],anc:2+Math.floor(r()*30),s:Math.round(91-i*3.4-r()*2),m:mot[Math.floor(r()*3)].m});}
+    var sat=+(7.6-(k-1)*1.6+(r()-.5)*.2).toFixed(1);
+    var vvc=Math.round(1480/k+(r()-.5)*60);
+    return {n:n,churn:churn,mot:mot,cohorts:cohorts,ctl:ctl,tgt:tgt,health:health,risk:risk,sat:sat,vvc:vvc,
+      prev:{churn:churn[10],recl:mot.reduce(function(a,b){return a+b.v;},0)*(1.04+r()*.05),sat:sat-.1-r()*.2,vvc:vvc*(.98+r()*.03),n:n*(.995+r()*.01)}};
+  }
+
+  // ---------- Infobulle ----------
+  var tip=document.getElementById('tip');
+  function showTip(html,ev){tip.innerHTML=html;tip.style.opacity=1;var x=ev.pageX+14,y=ev.pageY+14,w=tip.offsetWidth;if(x+w>window.scrollX+document.documentElement.clientWidth-8)x=ev.pageX-w-14;tip.style.left=x+'px';tip.style.top=y+'px';}
+  function hideTip(){tip.style.opacity=0;}
+  function el(t,a){var e=document.createElementNS('http://www.w3.org/2000/svg',t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+  // ---------- Tuiles ----------
+  function tiles(d){
+    var recl=d.mot.reduce(function(a,b){return a+b.v;},0), last=d.churn[11];
+    var T=[
+      {l:'Clients actifs (échantillon)',v:fmt(d.n),dv:(d.n-d.prev.n)/d.prev.n*100,u:'%',good:true},
+      {l:'Taux de départ du mois',v:fmt(last,2)+' %',dv:last-d.prev.churn,u:' pt',good:false},
+      {l:'Réclamations / 1 000 clients',v:fmt(recl,1),dv:recl-d.prev.recl,u:'',good:false},
+      {l:'Satisfaction (sur 10)',v:fmt(d.sat,1),dv:d.sat-d.prev.sat,u:'',good:true},
+      {l:'Valeur vie client moyenne',v:fmt(d.vvc)+' €',dv:(d.vvc-d.prev.vvc)/d.prev.vvc*100,u:'%',good:true}
+    ];
+    document.getElementById('tiles').innerHTML=T.map(function(t){
+      var up=t.dv>=0, better=(up===t.good), sign=up?'+':'−', arrow=up?'▲':'▼';
+      return '<div class="card tile"><div class="lab">'+t.l+'</div><div class="val">'+t.v+'</div><div class="delta"><span style="color:var('+(better?'--good':'--crit')+')" aria-hidden="true">'+arrow+'</span> <b>'+sign+fmt(Math.abs(t.dv),t.u===''?1:1)+t.u+'</b> vs mois précédent · '+(better?'en amélioration':'à surveiller')+'</div></div>';
+    }).join('');
+  }
+
+  // ---------- Courbe ----------
+  function line(d){
+    var box=document.getElementById('cLine');box.innerHTML='';
+    var W=520,H=240,m={l:40,r:16,t:12,b:28},iw=W-m.l-m.r,ih=H-m.t-m.b;
+    var mn=Math.floor(Math.min.apply(0,d.churn)*10-1)/10,mx=Math.ceil(Math.max.apply(0,d.churn)*10+1)/10;
+    var x=function(i){return m.l+i*iw/11;},y=function(v){return m.t+ih-(v-mn)/(mx-mn)*ih;};
+    var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Taux de départ mensuel sur 12 mois'});
+    var g=el('g',{class:'axis'});
+    var stp=(mx-mn)>0.6?0.2:0.1;for(var v=Math.ceil(mn/stp-1e-9)*stp;v<=mx+1e-9;v+=stp){var yy=y(v);g.appendChild(el('line',{x1:m.l,x2:W-m.r,y1:yy,y2:yy,class:'gridline'}));var tt=el('text',{x:m.l-6,y:yy+4,'text-anchor':'end'});tt.textContent=fmt(v,1)+' %';g.appendChild(tt);}
+    MONTHS.forEach(function(mo,i){if(i%2)return;var tt=el('text',{x:x(i),y:H-8,'text-anchor':'middle'});tt.textContent=mo;g.appendChild(tt);});
+    s.appendChild(g);
+    var p=d.churn.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+    s.appendChild(el('path',{d:p,fill:'none',stroke:'var(--s1)','stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}));
+    var last=el('circle',{cx:x(11),cy:y(d.churn[11]),r:4.5,fill:'var(--s1)',stroke:'var(--surface)','stroke-width':2});s.appendChild(last);
+    var lab=el('text',{x:x(11)-6,y:y(d.churn[11])-10,'text-anchor':'end',fill:'var(--ink)','font-size':12,'font-weight':700});lab.textContent=fmt(d.churn[11],2)+' %';s.appendChild(lab);
+    var cross=el('line',{y1:m.t,y2:m.t+ih,stroke:'var(--muted)','stroke-width':1,'stroke-dasharray':'3 3',opacity:0});s.appendChild(cross);
+    var dot=el('circle',{r:5,fill:'var(--s1)',stroke:'var(--surface)','stroke-width':2,opacity:0});s.appendChild(dot);
+    var hit=el('rect',{x:m.l,y:m.t,width:iw,height:ih,fill:'transparent'});s.appendChild(hit);
+    hit.addEventListener('mousemove',function(ev){var pt=s.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;var loc=pt.matrixTransform(s.getScreenCTM().inverse());var i=Math.max(0,Math.min(11,Math.round((loc.x-m.l)/(iw/11))));cross.setAttribute('x1',x(i));cross.setAttribute('x2',x(i));cross.setAttribute('opacity',1);dot.setAttribute('cx',x(i));dot.setAttribute('cy',y(d.churn[i]));dot.setAttribute('opacity',1);showTip('<b>'+MONTHS[i]+'</b><br>Taux de départ : '+fmt(d.churn[i],2)+' %',ev);});
+    hit.addEventListener('mouseleave',function(){cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip();});
+    box.appendChild(s);
+    document.getElementById('tLine').innerHTML='<table><thead><tr><th>Mois</th><th class="num">Taux de départ</th></tr></thead><tbody>'+MONTHS.map(function(mo,i){return '<tr><td>'+mo+'</td><td class="num">'+fmt(d.churn[i],2)+' %</td></tr>';}).join('')+'</tbody></table>';
+  }
+
+  // ---------- Barres horizontales ----------
+  function bars(d){
+    var box=document.getElementById('cBar');box.innerHTML='';
+    var W=520,rowH=34,m={l:150,r:52,t:4},H=m.t+rowH*d.mot.length,iw=W-m.l-m.r,mx=d.mot[0].v;
+    var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Motifs de réclamation pour 1 000 clients'});
+    d.mot.forEach(function(o,i){
+      var yy=m.t+i*rowH,bw=Math.max(2,o.v/mx*iw);
+      var t=el('text',{x:m.l-10,y:yy+rowH/2+4,'text-anchor':'end',fill:'var(--ink2)','font-size':12.5});t.textContent=o.m;s.appendChild(t);
+      s.appendChild(el('rect',{x:m.l,y:yy+8,width:bw,height:rowH-16,rx:4,fill:'var(--s1)'}));
+      var v=el('text',{x:m.l+bw+6,y:yy+rowH/2+4,fill:'var(--ink)','font-size':12.5,'font-weight':600});v.textContent=fmt(o.v,1);s.appendChild(v);
+      var h=el('rect',{x:0,y:yy,width:W,height:rowH,fill:'transparent'});
+      h.addEventListener('mousemove',function(ev){showTip('<b>'+o.m+'</b><br>'+fmt(o.v,1)+' réclamations pour 1 000 clients',ev);});h.addEventListener('mouseleave',hideTip);s.appendChild(h);
+    });
+    box.appendChild(s);
+  }
+
+  // ---------- Cohortes ----------
+  function cohort(d){
+    var box=document.getElementById('cCohort');box.innerHTML='';
+    var W=520,m={l:70,t:26,r:6,b:6},cw=(W-m.l-m.r)/6,ch=34,H=m.t+ch*6+m.b;
+    var steps=['--seq0','--seq1','--seq2','--seq3','--seq4','--seq5'];
+    var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Fidélité par cohorte mensuelle'});
+    for(var a=0;a<6;a++){var t=el('text',{x:m.l+a*cw+cw/2,y:16,'text-anchor':'middle',fill:'var(--muted)','font-size':11});t.textContent=a===0?'Mois 0':'+'+a+' mois';s.appendChild(t);}
+    d.cohorts.forEach(function(c,ci){
+      var t=el('text',{x:m.l-8,y:m.t+ci*ch+ch/2+4,'text-anchor':'end',fill:'var(--ink2)','font-size':12});t.textContent=c.lab;s.appendChild(t);
+      c.row.forEach(function(v,a){if(v===null)return;
+        var idx=Math.max(0,Math.min(5,Math.round((v-70)/6)));
+        var rc=el('rect',{x:m.l+a*cw+1,y:m.t+ci*ch+1,width:cw-2,height:ch-2,rx:4,fill:'var('+steps[idx]+')'});s.appendChild(rc);
+        var tx=el('text',{x:m.l+a*cw+cw/2,y:m.t+ci*ch+ch/2+4,'text-anchor':'middle','font-size':12,'font-weight':600,fill:idx>=3?'#FFFFFF':'var(--ink)'});tx.textContent=v+' %';s.appendChild(tx);
+        rc.addEventListener('mousemove',function(ev){showTip('<b>Cohorte '+c.lab+'</b><br>'+(a===0?'Mois d\'arrivée':'Après '+a+' mois')+' : '+v+' % encore clients',ev);});rc.addEventListener('mouseleave',hideTip);
+      });
+    });
+    box.appendChild(s);
+  }
+
+  // ---------- Test groupe témoin ----------
+  function test(d){
+    var box=document.getElementById('cTest');box.innerHTML='';
+    var W=520,H=150,m={l:150,r:60,t:10},iw=W-m.l-m.r,rows=[{l:'Groupe contacté',v:d.tgt,c:'var(--s1)'},{l:'Groupe témoin',v:d.ctl,c:'var(--s2)'}];
+    var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Comparaison groupe contacté et groupe témoin'});
+    rows.forEach(function(o,i){var yy=m.t+i*60,bw=o.v/100*iw;
+      var t=el('text',{x:m.l-10,y:yy+28,'text-anchor':'end',fill:'var(--ink2)','font-size':12.5});t.textContent=o.l;s.appendChild(t);
+      s.appendChild(el('rect',{x:m.l,y:yy+12,width:iw,height:26,rx:4,fill:'var(--grid)'}));
+      var b=el('rect',{x:m.l,y:yy+12,width:bw,height:26,rx:4,fill:o.c});s.appendChild(b);
+      var v=el('text',{x:m.l+iw+8,y:yy+30,fill:'var(--ink)','font-size':13,'font-weight':700});v.textContent=fmt(o.v,1)+' %';s.appendChild(v);
+      b.addEventListener('mousemove',function(ev){showTip('<b>'+o.l+'</b><br>'+fmt(o.v,1)+' % encore clients à 3 mois',ev);});b.addEventListener('mouseleave',hideTip);
+    });
+    box.appendChild(s);
+    var gain=d.tgt-d.ctl;
+    document.getElementById('testResult').innerHTML='<b>Effet attribuable à la campagne : +'+fmt(gain,1)+' points</b> de clients conservés. Sans groupe témoin, on aurait pu croire à tort que la campagne explique les '+fmt(d.tgt,1)+' %.';
+  }
+
+  // ---------- Santé des données ----------
+  function health(d){
+    document.getElementById('health').innerHTML=d.health.map(function(h){
+      var st=h.v>=h.t[0]?['b-good','✓','Bon']:h.v>=h.t[1]?['b-warn','!','À surveiller']:['b-crit','✕','Critique'];
+      return '<div class="hrow"><div class="name">'+h.name+'<div style="font-weight:400;font-size:12px;color:var(--muted)">'+h.d+'</div></div><div class="score">'+fmt(h.v,1)+' %</div><span class="badge '+st[0]+'"><span aria-hidden="true">'+st[1]+'</span>'+st[2]+'</span></div>';
+    }).join('');
+  }
+
+  // ---------- Clients à risque ----------
+  function risk(d){
+    document.getElementById('risk').innerHTML='<table><thead><tr><th>Client</th><th>Énergie</th><th class="num">Ancienneté</th><th>Score de risque</th><th>Motif principal</th></tr></thead><tbody>'+
+      d.risk.map(function(c){return '<tr><td>'+c.id+'</td><td>'+c.seg+'</td><td class="num">'+c.anc+' mois</td><td><span class="risk" style="width:'+Math.round(c.s*.6)+'px"></span>'+c.s+'</td><td>'+c.m+'</td></tr>';}).join('')+'</tbody></table>';
+  }
+
+  function render(){var d=build(document.getElementById('fEnergie').value,document.getElementById('fCanal').value);tiles(d);line(d);bars(d);cohort(d);test(d);health(d);risk(d);}
+  document.getElementById('fEnergie').addEventListener('change',render);
+  document.getElementById('fCanal').addEventListener('change',render);
+  document.getElementById('tblBtn').addEventListener('click',function(){var t=document.getElementById('tLine'),c=document.getElementById('cLine'),h=t.classList.toggle('hide');c.classList.toggle('hide',!h);this.textContent=h?'Voir le tableau':'Voir le graphique';});
+  document.getElementById('themeBtn').addEventListener('click',function(){var r=document.documentElement,cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');});
+  render();
+})();
+</script>
+</body>
+</html>
