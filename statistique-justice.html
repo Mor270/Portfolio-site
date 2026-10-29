@@ -9,18 +9,19 @@
   --bg:#F3F5FA;--surface:#FCFCFD;--ink:#141A2E;--ink2:#444C63;--muted:#636C83;--line:#D9DFEC;--grid:#E6EAF3;
   --brand:#1F3A93;--brand2:#2F55C4;--s1:#1F3A93;--s2:#C9822B;--s3:#9AA6C4;
   --good:#1E7B3A;--warn:#A86A00;--crit:#B3261E;
+  --rcom:#5F7A5F;--rstr:#A6510A;--rnum:#7A3EBD;--rkw:#1F3A93;--rfun:#0B6A85;--rop:#9A3412;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0E1220;--surface:#161B2C;--ink:#E7EAF3;--ink2:#B9C0D3;--muted:#949BB1;--line:#2A3148;--grid:#222940;
     --brand:#1F3A93;--brand2:#7C9BF2;--s1:#7C9BF2;--s2:#E0A050;--s3:#4A5577;
-    --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;
+    --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;--rcom:#8FA88F;--rstr:#E8A066;--rnum:#C39BF2;--rkw:#9DB4FF;--rfun:#6FD0E8;--rop:#F2A27A;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0E1220;--surface:#161B2C;--ink:#E7EAF3;--ink2:#B9C0D3;--muted:#949BB1;--line:#2A3148;--grid:#222940;
   --brand:#1F3A93;--brand2:#7C9BF2;--s1:#7C9BF2;--s2:#E0A050;--s3:#4A5577;
-  --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;
+  --good:#6CC685;--warn:#E3A93F;--crit:#F07A70;--rcom:#8FA88F;--rstr:#E8A066;--rnum:#C39BF2;--rkw:#9DB4FF;--rfun:#6FD0E8;--rop:#F2A27A;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.45}
@@ -33,10 +34,11 @@ header .wrap{padding:0}
 .kick a:hover{text-decoration:underline}
 h1{margin:4px 0 4px;font-size:24px;line-height:1.2}
 .sub{opacity:.9;font-size:14px}
-.demo{margin:18px auto 0;background:#FFF4DE;color:#5A3D00;border:1px solid #F0D49A;border-radius:10px;padding:10px 14px;font-size:13px}
-.demo a{color:inherit;font-weight:700}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .demo{background:#3A2C10;color:#F5DDB0;border-color:#6B5321}}
-:root[data-theme="dark"] .demo{background:#3A2C10;color:#F5DDB0;border-color:#6B5321}
+.demo{margin:18px auto 0;background:transparent;color:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px}
+.demo p{margin:0}
+.demo p+p{margin-top:6px}
+.demo b{color:var(--ink)}
+.demo a{color:var(--ink);font-weight:700}
 .filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:16px 0 4px}
 .filters label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
 select,button,.btn{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px}
@@ -80,45 +82,73 @@ footer a{color:var(--ink2)}
 .toggle{font-size:12.5px;padding:4px 10px;min-height:32px}
 .hide{display:none}
 .row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.btns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+.rbtn{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.rbtn:hover{background:var(--brand2);border-color:var(--brand2);color:#fff}
+.rbtn:before{content:"R";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#fff;color:#1F3A93;font-size:11px;font-weight:800;font-family:Inter,system-ui,sans-serif}
+.btn-r{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-r:hover{background:var(--brand2);border-color:var(--brand2);color:#fff}
+.vue{min-width:0}
+.rwin{border:1px solid var(--line);border-radius:8px;overflow:hidden;font-family:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;font-size:12px;background:var(--surface)}
+.rbar{display:flex;background:var(--grid);border-bottom:1px solid var(--line);font-family:Inter,system-ui,sans-serif}
+.rtab{padding:6px 12px;font-size:12px;color:var(--muted);border-right:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rtab.on{background:var(--surface);color:var(--ink);font-weight:600}
+.rlab{font-family:Inter,system-ui,sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 12px;border-top:1px solid var(--line);background:var(--grid);display:flex;justify-content:space-between}
+.rcode{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.rgut{margin:0;color:var(--muted);text-align:right;padding:8px 8px 8px 12px;border-right:1px solid var(--grid);user-select:none;white-space:pre;line-height:1.6;opacity:.8}
+.rsrc,.rcons{white-space:pre;overflow-x:auto;line-height:1.6;color:var(--ink);padding:8px 12px;margin:0}
+.rcons{background:var(--bg);line-height:1.45;max-height:340px;overflow-y:auto}
+.rcons .out{color:var(--ink2)}
+.rcons .pr{color:var(--brand2);font-weight:700}
+.k-com{color:var(--rcom);font-style:italic}.k-str{color:var(--rstr)}.k-num{color:var(--rnum)}.k-kw{color:var(--rkw);font-weight:700}.k-fun{color:var(--rfun)}.k-op{color:var(--rop);font-weight:600}
+.rnote{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <div class="kick"><a href="./">Démo · Portfolio Mor Talla DIENG</a></div>
   <h1>Statistique publique – domaine de la justice</h1>
-  <div class="sub">Quatre travaux types d'un service statistique ministériel, réalisés sous R : désaisonnalisation, enquête, contrôles et recette, séries longues.</div>
+  <div class="sub">Quatre exemples de travaux d'un service statistique public, réalisés avec le logiciel R sur des données fictives.</div>
 </div></header>
 
 <div class="wrap">
 
-  <div class="demo">Toutes les données sont simulées : elles ne proviennent d'aucune source officielle. Les résultats de cette page sont ceux produits par le projet R (scripts et application Shiny), disponible sur <a href="https://github.com/Mor270/statistiques-justice-simulees" target="_blank" rel="noopener">GitHub</a>.</div>
+  <div class="demo">
+    <p><b>Données fictives.</b> Tous les chiffres de cette page sont inventés par simulation : ils ne décrivent pas la réalité. Le code R qui les produit est disponible sur <a href="https://github.com/Mor270/statistiques-justice-simulees" target="_blank" rel="noopener">GitHub</a>.</p>
+    <p><b>Pourquoi des données fictives ?</b> Comme on connaît la bonne réponse à l'avance, on peut vérifier que chaque méthode la retrouve. La page teste des méthodes ; elle n'étudie pas la justice réelle.</p>
+    <p><b>Marge d'incertitude.</b> C'est la fourchette dans laquelle se trouve probablement la vraie valeur (intervalle de confiance à 95 %). Elle tient compte du hasard de l'échantillon, mais pas d'une erreur de méthode.</p>
+  </div>
 
   <div class="filters">
-    <label>Résultats de l'enquête
-      <select id="fPond"><option value="1">Calés (taille + salariés)</option><option value="0">Bruts, non pondérés</option></select>
+    <label>Enquête : résultats
+      <select id="fPond"><option value="1">Corrigés (taille + salariés)</option><option value="0">Sans correction</option></select>
     </label>
-    <label>Seuil de tolérance de la recette
+    <label>Écart toléré entre les deux programmes
       <select id="fSeuil"><option value="0.5">0,5 %</option><option value="1" selected>1 %</option><option value="2">2 %</option><option value="5">5 %</option></select>
     </label>
-    <label>Regroupement d'infractions
+    <label>Groupe d'infractions
       <select id="fGroupe"></select>
     </label>
     <button id="themeBtn" type="button" aria-label="Changer de thème">Thème clair / sombre</button>
-    <a class="btn" href="https://github.com/Mor270/statistiques-justice-simulees" target="_blank" rel="noopener">Voir le code R sur GitHub</a>
+    <a class="btn btn-r" href="https://github.com/Mor270/statistiques-justice-simulees" target="_blank" rel="noopener">Voir le code R sur GitHub</a>
   </div>
 
   <div class="grid tiles" id="tiles"></div>
 
   <div class="grid two">
     <div class="card">
-      <div class="row-head"><div><h2>Personnes détenues au 1er du mois</h2><p class="desc">Série brute et série corrigée des variations saisonnières et de l'effet samedi (CVS-CJO).</p></div>
-      <button class="toggle" type="button" id="tblBtn">Voir le tableau</button></div>
+      <div class="row-head"><div><h2>Nombre de détenus au 1er du mois</h2><p class="desc">Courbe claire : le chiffre brut. Courbe foncée : le chiffre corrigé des effets de saison et de calendrier (CVS-CJO), qui permet de comparer un mois au précédent.</p></div>
+      <div class="btns"><button class="toggle" type="button" id="tblBtn">Voir le tableau</button><button class="toggle rbtn" type="button" data-pane="rDet" data-vue="vDet" data-cle="detenus">Code R</button></div></div>
+      <div class="vue" id="vDet">
       <div class="chart" id="cLine"></div>
       <div class="scroll hide" id="tLine"></div>
-      <div class="legend"><span><span class="sw" style="background:var(--s3)"></span>Série brute</span><span><span class="sw" style="background:var(--s1)"></span>CVS-CJO</span></div>
+      <div class="legend"><span><span class="sw" style="background:var(--s3)"></span>Chiffre brut</span><span><span class="sw" style="background:var(--s1)"></span>Chiffre corrigé (CVS-CJO)</span></div>
+      </div>
+      <div class="rpane hide" id="rDet"></div>
     </div>
     <div class="card">
-      <h2>L'effet du nombre de samedis</h2><p class="desc">Les libérations ont surtout lieu le samedi. Écart moyen de la série brute à sa tendance, selon le nombre de samedis du mois précédent (hors période Covid).</p>
+      <h2>Pourquoi corriger l'effet des samedis ?</h2><p class="desc">Les sorties de prison ont surtout lieu le samedi. Un mois qui compte 5 samedis a donc plus de sorties, et moins de détenus le 1er du mois suivant. Les barres montrent l'écart moyen à la tendance.</p>
       <div class="chart" id="cSam"></div>
       <p class="result" id="samResult"></p>
       <div class="scroll" id="tAtyp" style="margin-top:8px"></div>
@@ -127,9 +157,12 @@ footer a{color:var(--ink2)}
 
   <div class="grid two">
     <div class="card">
-      <h2>Enquête auprès des associations d'aide aux victimes</h2><p class="desc">Nombre total de victimes accompagnées, avec intervalle de confiance à 95 % (package survey). Les petites associations, et celles qui ont peu de salariés, répondent moins.</p>
+      <div class="row-head"><div><h2>Corriger une enquête où tout le monde ne répond pas</h2><p class="desc">On estime le nombre total de victimes aidées par les associations. Les petites associations répondent moins souvent. Chaque point est une estimation, le trait autour sa marge d'incertitude, la ligne pointillée la vraie valeur.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rEnq" data-vue="vEnq" data-cle="enquete">Code R</button></div></div>
+      <div class="vue" id="vEnq">
       <div class="chart" id="cEst"></div>
       <p class="result" id="estResult"></p>
+      </div>
+      <div class="rpane hide" id="rEnq"></div>
     </div>
     <div class="card">
       <h2>Type d'aide principal proposé</h2><p class="desc" id="aideDesc"></p>
@@ -140,29 +173,33 @@ footer a{color:var(--ink2)}
 
   <div class="grid two">
     <div class="card">
-      <h2>Prud'hommes : contrôles de cohérence</h2><p class="desc">Contrôles automatiques sur l'activité de 40 conseils fictifs, avant tout calcul d'indicateur.</p>
-      <div class="health" id="health"></div>
+      <div class="row-head"><div><h2>Prud'hommes : vérifier les données avant de calculer</h2><p class="desc">Six vérifications automatiques repèrent les erreurs dans les données de 40 conseils fictifs. Exemple : le stock de fin d'année doit égaler le stock de début, plus les nouvelles affaires, moins les affaires terminées.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rCph" data-vue="vCph" data-cle="prudhommes">Code R</button></div></div>
+      <div class="vue" id="vCph"><div class="health" id="health"></div></div>
+      <div class="rpane hide" id="rCph"></div>
     </div>
     <div class="card">
-      <h2>Recette de la nouvelle chaîne de traitement</h2><p class="desc">Affaires terminées par conseil et par année : ancienne chaîne en abscisse, nouvelle chaîne en ordonnée.</p>
+      <h2>Vérifier qu'un nouveau programme donne les bons résultats</h2><p class="desc">Chaque point compare, pour un conseil et une année, les affaires terminées calculées par l'ancien programme (horizontal) et par le nouveau (vertical). Sur la diagonale, les deux sont d'accord.</p>
       <div class="chart" id="cRec"></div>
-      <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>Conforme</span><span><span class="sw" style="background:var(--s2)"></span>Écart expliqué (affaires jointes)</span><span><span class="sw" style="background:var(--crit)"></span>Anomalie à corriger</span></div>
+      <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>Identique</span><span><span class="sw" style="background:var(--s2)"></span>Écart dû à une nouvelle règle</span><span><span class="sw" style="background:var(--crit)"></span>Erreur à corriger</span></div>
       <p class="result" id="recResult"></p>
     </div>
   </div>
 
   <div class="grid">
     <div class="card">
-      <h2>Condamnations : construire une série longue</h2><p class="desc" id="serDesc"></p>
+      <div class="row-head"><div><h2>Condamnations : comparer les années malgré un changement de classement</h2><p class="desc" id="serDesc"></p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rSer" data-vue="vSer" data-cle="condamnations">Code R</button></div></div>
+      <div class="vue" id="vSer">
       <div class="chart" id="cSer"></div>
-      <div class="legend"><span><span class="sw dash"></span>Série juxtaposée (avec rupture)</span><span><span class="sw" style="background:var(--s1)"></span>Série longue raccordée</span><span>○ Année provisoire</span></div>
+      <div class="legend"><span><span class="sw dash"></span>Chiffres mis bout à bout (avec cassure)</span><span><span class="sw" style="background:var(--s1)"></span>Série corrigée, comparable dans le temps</span><span>○ Dernière année, encore incomplète</span></div>
       <p class="result" id="serResult"></p>
+      </div>
+      <div class="rpane hide" id="rSer"></div>
     </div>
   </div>
 
   <div class="grid">
     <div class="card">
-      <h2>Détail des anomalies détectées</h2><p class="desc">Une ligne par signalement ; chaque anomalie est à corriger ou à faire confirmer par la source.</p>
+      <h2>Liste des erreurs repérées</h2><p class="desc">Chaque erreur doit être corrigée, ou confirmée avec le service qui fournit les données.</p>
       <div class="scroll" id="tAnom"></div>
     </div>
   </div>
@@ -178,6 +215,8 @@ footer a{color:var(--ink2)}
   var fmt=function(v,d){return v.toLocaleString('fr-FR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
   var sgn=function(v,d){return (v>0?'+':v<0?'−':'')+fmt(Math.abs(v),d);};
   var MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+  var NOM={'Sans pondération':'Sans correction','Post-stratification (taille)':'Correction par la taille','Calage (taille + salariés)':'Correction taille + salariés'};
+  var ATYP={'Point atypique (AO)':'Mois isolé hors norme','Changement de niveau (LS)':'Changement durable de niveau','Changement transitoire (TC)':'Changement temporaire'};
   var lib=function(ym){var p=ym.split('-');return MOIS[+p[1]-1]+' '+p[0];};
 
   var tip=document.getElementById('tip');
@@ -193,11 +232,11 @@ footer a{color:var(--ink2)}
     var n=D.cvs.length,last=D.cvs[n-1],tri=(last/D.cvs[n-4]-1)*100;
     var e=D.est,k=D.coefs.filter(function(c){return c.g===st.groupe;})[0].k;
     var T=[
-      {l:'Effet samedi estimé (X-13)',v:sgn(D.coef)+' détenus',d:'IC 95 % : '+sgn(D.ic[0])+' à '+sgn(D.ic[1])+' · simulé : −350'},
-      {l:'Détenus au 1er '+lib(D.mois[n-1])+' (CVS-CJO)',v:fmt(last),d:'<b>'+sgn(tri,1)+' %</b> sur 3 mois'},
-      {l:'Biais de non-réponse après calage',v:sgn(e[3].ecart_pct,1)+' %',d:'contre <b>'+sgn(e[1].ecart_pct,1)+' %</b> sans pondération'},
-      {l:'Anomalies injectées retrouvées',v:'7 / 7',d:'<b>'+D.anomalies.length+'</b> signalements sur '+D.nlignes+' lignes'},
-      {l:'Raccordement – '+st.groupe,v:'× '+fmt(k,2),d:k===1?'pas de rupture en 2015':'rupture de <b>'+sgn((k-1)*100,0)+' %</b> en 2015'}
+      {l:'Effet d\'un samedi en plus',v:sgn(D.coef)+' détenus',d:'valeur cachée dans les données : <b>−350</b>'},
+      {l:'Détenus au 1er '+lib(D.mois[n-1])+', chiffre corrigé',v:fmt(last),d:'<b>'+sgn(tri,1)+' %</b> en 3 mois'},
+      {l:'Erreur de l\'enquête après correction',v:sgn(e[3].ecart_pct,1)+' %',d:'contre <b>'+sgn(e[1].ecart_pct,1)+' %</b> sans correction'},
+      {l:'Erreurs volontaires retrouvées',v:'7 / 7',d:'<b>'+D.anomalies.length+'</b> alertes sur '+D.nlignes+' lignes vérifiées'},
+      {l:'Cassure de 2015 – '+st.groupe,v:k===1?'Aucune':sgn((k-1)*100,0)+' %',d:k===1?'chiffres comparables sans correction':'corrigée en multipliant les années avant 2015 par <b>'+fmt(k,2)+'</b>'}
     ];
     document.getElementById('tiles').innerHTML=T.map(function(t){return '<div class="card tile"><div class="lab">'+t.l+'</div><div class="val">'+t.v+'</div><div class="delta">'+t.d+'</div></div>';}).join('');
   }
@@ -219,7 +258,7 @@ footer a{color:var(--ink2)}
     hit.addEventListener('mousemove',function(ev){var pt=s.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;var loc=pt.matrixTransform(s.getScreenCTM().inverse());var i=Math.max(0,Math.min(n-1,Math.round((loc.x-m.l)/(iw/(n-1)))));cross.setAttribute('x1',x(i));cross.setAttribute('x2',x(i));cross.setAttribute('opacity',1);dot.setAttribute('cx',x(i));dot.setAttribute('cy',y(D.cvs[i]));dot.setAttribute('opacity',1);showTip('<b>1er '+lib(D.mois[i])+'</b><br>Brut : '+fmt(D.brut[i])+'<br>CVS-CJO : '+fmt(D.cvs[i]),ev);});
     hit.addEventListener('mouseleave',function(){cross.setAttribute('opacity',0);dot.setAttribute('opacity',0);hideTip();});
     box.appendChild(s);
-    document.getElementById('tLine').innerHTML='<table><thead><tr><th>Mois</th><th class="num">Brut</th><th class="num">CVS-CJO</th><th class="num">Évol. mens. brute</th><th class="num">Évol. mens. CVS-CJO</th><th class="num">Évol. trim. CVS-CJO</th></tr></thead><tbody>'+
+    document.getElementById('tLine').innerHTML='<table><thead><tr><th>Mois</th><th class="num">Chiffre brut</th><th class="num">Chiffre corrigé</th><th class="num">Sur 1 mois (brut)</th><th class="num">Sur 1 mois (corrigé)</th><th class="num">Sur 3 mois (corrigé)</th></tr></thead><tbody>'+
       D.evol.map(function(r){return '<tr><td>'+lib(r.mois)+'</td><td class="num">'+fmt(r['Brut'])+'</td><td class="num">'+fmt(r['CVS-CJO'])+'</td><td class="num">'+sgn(r['Évol. mensuelle brute (%)'],2)+' %</td><td class="num">'+sgn(r['Évol. mensuelle CVS-CJO (%)'],2)+' %</td><td class="num">'+sgn(r['Évol. trimestrielle CVS-CJO (%)'],2)+' %</td></tr>';}).join('')+'</tbody></table>';
   }
 
@@ -239,15 +278,15 @@ footer a{color:var(--ink2)}
     });
     txt(s,{x:x0,y:H-2,'text-anchor':'middle',fill:'var(--muted)','font-size':11},'Écart à la tendance (personnes)');
     box.appendChild(s);
-    document.getElementById('samResult').innerHTML='<b>X-13ARIMA-SEATS estime l\'effet à '+sgn(D.coef)+' détenus par samedi</b> (IC 95 % : '+sgn(D.ic[0])+' à '+sgn(D.ic[1])+'), pour −350 simulé. Le choc Covid n\'est pas fourni au modèle : X-13 détecte seul les '+D.atyp.length+' points atypiques ci-dessous.';
-    document.getElementById('tAtyp').innerHTML='<table><thead><tr><th>Date</th><th>Type détecté</th><th class="num">Effet</th></tr></thead><tbody>'+D.atyp.map(function(a){var p=a.date.split('.'),mo={Jan:'janv.',Feb:'févr.',Mar:'mars',Apr:'avr.',May:'mai',Jun:'juin',Jul:'juil.',Aug:'août',Sep:'sept.',Oct:'oct.',Nov:'nov.',Dec:'déc.'}[p[1]];return '<tr><td>'+mo+' '+p[0]+'</td><td>'+a.type+'</td><td class="num">'+sgn(a.effet)+'</td></tr>';}).join('')+'</tbody></table>';
+    document.getElementById('samResult').innerHTML='<b>À retenir : chaque samedi en plus retire environ '+fmt(Math.abs(D.coef))+' détenus</b> au chiffre du mois suivant (marge d\'incertitude : '+fmt(Math.abs(D.ic[1]))+' à '+fmt(Math.abs(D.ic[0]))+'). La valeur cachée dans les données était 350 : le logiciel X-13, utilisé par la statistique publique, l\'a bien retrouvée. Il a aussi repéré seul les mois perturbés par le Covid :';
+    document.getElementById('tAtyp').innerHTML='<table><thead><tr><th>Date</th><th>Ce que X-13 a détecté</th><th class="num">Effet (personnes)</th></tr></thead><tbody>'+D.atyp.map(function(a){var p=a.date.split('.'),mo={Jan:'janv.',Feb:'févr.',Mar:'mars',Apr:'avr.',May:'mai',Jun:'juin',Jul:'juil.',Aug:'août',Sep:'sept.',Oct:'oct.',Nov:'nov.',Dec:'déc.'}[p[1]];return '<tr><td>'+mo+' '+p[0]+'</td><td>'+(ATYP[a.type]||a.type)+'</td><td class="num">'+sgn(a.effet)+'</td></tr>';}).join('')+'</tbody></table>';
   }
 
   // ---------- Enquête : estimations avec IC ----------
   function estimations(){
     var box=document.getElementById('cEst');box.innerHTML='';
     var vrai=D.est[0].total,E=D.est.slice(1);
-    var W=520,rowH=56,m={l:178,r:18,t:26,b:26},H=m.t+rowH*E.length+m.b,iw=W-m.l-m.r;
+    var W=520,rowH=56,m={l:190,r:18,t:26,b:26},H=m.t+rowH*E.length+m.b,iw=W-m.l-m.r;
     var lo=Math.min.apply(0,E.map(function(e){return e.ic_bas;}).concat([vrai])),hi=Math.max.apply(0,E.map(function(e){return e.ic_haut;}));
     var st=niceStep(hi-lo);lo=Math.floor(lo/st)*st;hi=Math.ceil(hi/st)*st;
     var x=function(v){return m.l+(v-lo)/(hi-lo)*iw;};
@@ -257,25 +296,25 @@ footer a{color:var(--ink2)}
     for(var v=lo;v<=hi+1e-9;v+=st){g.appendChild(el('line',{x1:x(v),x2:x(v),y1:m.t,y2:H-m.b,class:'gridline'}));txt(g,{x:x(v),y:H-8,'text-anchor':'middle'},fmt(v/1000)+' k');}
     s.appendChild(g);
     s.appendChild(el('line',{x1:x(vrai),x2:x(vrai),y1:m.t-8,y2:H-m.b,stroke:'var(--muted)','stroke-dasharray':'4 4'}));
-    txt(s,{x:x(vrai),y:m.t-12,'text-anchor':'middle',fill:'var(--muted)','font-size':11},'Vraie valeur (simulée) : '+fmt(vrai));
+    txt(s,{x:x(vrai),y:m.t-12,'text-anchor':'middle',fill:'var(--muted)','font-size':11},'Vraie valeur : '+fmt(vrai));
     E.forEach(function(e,i){var yy=m.t+i*rowH+rowH/2;
-      txt(s,{x:m.l-12,y:yy+4,'text-anchor':'end',fill:'var(--ink2)','font-size':12.5},e.estimation);
+      txt(s,{x:m.l-12,y:yy+4,'text-anchor':'end',fill:'var(--ink2)','font-size':12.5},NOM[e.estimation]||e.estimation);
       s.appendChild(el('line',{x1:x(e.ic_bas),x2:x(e.ic_haut),y1:yy,y2:yy,stroke:cols[i],'stroke-width':2.5}));
       [e.ic_bas,e.ic_haut].forEach(function(b){s.appendChild(el('line',{x1:x(b),x2:x(b),y1:yy-7,y2:yy+7,stroke:cols[i],'stroke-width':2.5}));});
       var c=el('circle',{cx:x(e.total),cy:yy,r:6,fill:cols[i],stroke:'var(--surface)','stroke-width':2});s.appendChild(c);
       txt(s,{x:x(e.total),y:yy-12,'text-anchor':'middle',fill:'var(--ink)','font-size':12,'font-weight':700},sgn(e.ecart_pct,1)+' %');
       var h=el('rect',{x:0,y:yy-rowH/2,width:W,height:rowH,fill:'transparent'});s.appendChild(h);
-      h.addEventListener('mousemove',function(ev){showTip('<b>'+e.estimation+'</b><br>Total : '+fmt(e.total)+'<br>IC 95 % : '+fmt(e.ic_bas)+' à '+fmt(e.ic_haut)+'<br>Vraie valeur dans l\'IC : '+(e.vrai_dans_ic?'oui':'non'),ev);});h.addEventListener('mouseleave',hideTip);
+      h.addEventListener('mousemove',function(ev){showTip('<b>'+(NOM[e.estimation]||e.estimation)+'</b><br>Estimation : '+fmt(e.total)+' victimes<br>Marge d\'incertitude : '+fmt(e.ic_bas)+' à '+fmt(e.ic_haut)+'<br>Vraie valeur dans la marge : '+(e.vrai_dans_ic?'oui':'non'),ev);});h.addEventListener('mouseleave',hideTip);
     });
     box.appendChild(s);
-    document.getElementById('estResult').innerHTML='<b>Seul le calage sur la taille et les salariés ('+sgn(D.est[3].ecart_pct,1)+' %) a un intervalle qui contient la vraie valeur.</b> La post-stratification sur la seule taille laisse '+sgn(D.est[2].ecart_pct,1)+' % de biais, car la non-réponse dépend aussi du nombre de salariés. Les intervalles mesurent l\'aléa d\'échantillonnage, pas un biais résiduel.';
+    document.getElementById('estResult').innerHTML='<b>À retenir : sans correction, le total est faux de '+sgn(D.est[1].ecart_pct,0)+' %.</b> Corriger par la taille ne suffit pas ('+sgn(D.est[2].ecart_pct,1)+' %), car les associations avec peu de salariés répondent aussi moins. <b>En corrigeant par la taille et les salariés, l\'erreur tombe à '+sgn(D.est[3].ecart_pct,1)+' %</b>, et la vraie valeur est dans la marge d\'incertitude.';
   }
 
   // ---------- Enquête : type d'aide ----------
   function aide(st){
     var box=document.getElementById('cAide');box.innerHTML='';
     var rows=(st.pond?D.aideP:D.aideB).slice().sort(function(a,b){return b.p-a.p;});
-    document.getElementById('aideDesc').textContent=st.pond?'Part des associations, résultats calés sur la taille et les salariés, avec IC à 95 %.':'Part des associations répondantes, résultats bruts non pondérés, avec IC à 95 %.';
+    document.getElementById('aideDesc').textContent=st.pond?'Part des associations selon l\'aide qu\'elles proposent le plus, après correction de la non-réponse. Les petits traits indiquent la marge d\'incertitude.':'Même calcul sans correction : les grandes associations, qui répondent plus souvent, pèsent trop dans le résultat.';
     var W=520,rowH=34,m={l:230,r:52,t:4},H=m.t+rowH*rows.length,iw=W-m.l-m.r,mx=60;
     var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Type d\'aide principal proposé par les associations'});
     rows.forEach(function(o,i){var yy=m.t+i*rowH,bw=Math.max(2,o.p/mx*iw);
@@ -320,9 +359,9 @@ footer a{color:var(--ink2)}
     var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'Recette : ancienne et nouvelle chaîne'});
     var g=yAxis(s,0,mx,y,m,W);
     for(var v=0;v<=mx;v+=500)txt(g,{x:x(v),y:H-14,'text-anchor':'middle'},fmt(v));
-    txt(g,{x:m.l+iw/2,y:H,'text-anchor':'middle'},'Ancienne chaîne');
+    txt(g,{x:m.l+iw/2,y:H,'text-anchor':'middle'},'Ancien programme');
     s.appendChild(el('line',{x1:x(0),y1:y(0),x2:x(mx),y2:y(mx),stroke:'var(--muted)','stroke-dasharray':'4 4'}));
-    var cols=['var(--s1)','var(--s2)','var(--crit)'],lab=['Conforme','Écart expliqué (affaires jointes)','Anomalie à corriger'];
+    var cols=['var(--s1)','var(--s2)','var(--crit)'],lab=['Identique','Écart dû à une nouvelle règle','Erreur à corriger'];
     R.slice().sort(function(a,b){return a.s-b.s;}).forEach(function(r){
       var c=el('circle',{cx:x(r.o),cy:y(r.n),r:r.s===2?6:3.6,fill:cols[r.s],'fill-opacity':r.s===2?1:.75,stroke:r.s===2?'var(--surface)':'none','stroke-width':2});s.appendChild(c);
       c.addEventListener('mousemove',function(ev){showTip('<b>'+r.c+' · '+r.a+'</b><br>Ancienne : '+fmt(r.o)+' · Nouvelle : '+fmt(r.n)+'<br>Écart : '+sgn(r.pct,1)+' % · '+lab[r.s],ev);});c.addEventListener('mouseleave',hideTip);
@@ -330,7 +369,8 @@ footer a{color:var(--ink2)}
     box.appendChild(s);
     var k=[0,0,0];R.forEach(function(r){k[r.s]++;});
     var an=R.filter(function(r){return r.s===2;});
-    document.getElementById('recResult').innerHTML='<b>'+k[0]+' lignes conformes, '+k[1]+' écarts expliqués, '+k[2]+' anomalie'+(k[2]>1?'s':'')+' à corriger</b> (seuil '+fmt(st.seuil,1)+' %). '+(an.length?'À corriger : '+an.slice(0,3).map(function(r){return r.c+' '+r.a+' ('+sgn(r.pct,0)+' %)';}).join(', ')+(an.length>3?'…':'')+'.':'');
+    var pl=function(n,u,p){return n+' '+(n>1?p:u);};
+    document.getElementById('recResult').innerHTML='<b>À retenir : '+pl(k[0],'résultat identique','résultats identiques')+', '+pl(k[1],'écart dû à une nouvelle règle','écarts dus à une nouvelle règle')+', '+pl(k[2],'erreur à corriger','erreurs à corriger')+'.</b> '+(k[1]?'La nouvelle règle compte une seule fois les affaires jointes, ce qui baisse les chiffres d\'environ 1,5 % à partir de 2023. ':'Avec cet écart toléré, la baisse de 1,5 % due à la nouvelle règle (affaires jointes) compte comme identique. ')+(an.length?'Erreur : '+an.slice(0,3).map(function(r){return r.c+' en '+r.a+' ('+sgn(r.pct,0)+' %)';}).join(', ')+(an.length>3?'…':'')+(an.length===1&&an[0].n===0?', dont toutes les affaires terminées ont disparu.':'.'):'');
   }
 
   // ---------- Séries longues ----------
@@ -338,7 +378,7 @@ footer a{color:var(--ink2)}
     var box=document.getElementById('cSer');box.innerHTML='';
     var S=D.serie.filter(function(r){return r.g===st.groupe;}).sort(function(a,b){return a.a-b.a;});
     var k=D.coefs.filter(function(c){return c.g===st.groupe;})[0].k;
-    document.getElementById('serDesc').textContent='Condamnations par année – '+st.groupe+'. La nomenclature change en 2015 ; l\'année 2015, codée dans les deux nomenclatures, sert à mesurer la rupture.';
+    document.getElementById('serDesc').textContent='Nombre de condamnations par an – '+st.groupe+'. En 2015, la façon de classer les infractions change, ce qui crée une cassure artificielle dans les chiffres. L\'année 2015, classée des deux façons, permet de mesurer cette cassure.';
     var W=1100,H=280,m={l:60,r:20,t:12,b:28},iw=W-m.l-m.r,ih=H-m.t-m.b,a0=S[0].a,a1=S[S.length-1].a;
     var all=S.map(function(r){return r.b;}).concat(S.map(function(r){return r.r;})),mn=Math.min.apply(0,all),mx=Math.max.apply(0,all),pad=(mx-mn)*.15;mn-=pad;mx+=pad;
     var x=function(a){return m.l+(a-a0)/(a1-a0)*iw;},y=function(v){return m.t+ih-(v-mn)/(mx-mn)*ih;};
@@ -356,8 +396,48 @@ footer a{color:var(--ink2)}
       h.addEventListener('mousemove',function(ev){showTip('<b>'+r.a+(r.p?' (provisoire)':'')+'</b><br>Juxtaposée : '+fmt(r.b)+'<br>Raccordée : '+fmt(r.r),ev);});h.addEventListener('mouseleave',hideTip);
     });
     box.appendChild(s);
-    document.getElementById('serResult').innerHTML=k===1?'<b>Pas de rupture pour ce regroupement</b> : la table de correspondance suffit à assurer la comparabilité dans le temps.':'<b>Coefficient de raccordement : × '+fmt(k,2)+'</b>. Les années antérieures à 2015 sont rétropolées pour rester comparables à la nouvelle nomenclature. La dernière année est provisoire : une partie des décisions n\'est pas encore enregistrée.';
+    document.getElementById('serResult').innerHTML=k===1?'<b>À retenir : pas de cassure pour ce groupe.</b> Les chiffres se comparent directement d\'une année à l\'autre.':'<b>À retenir : le nouveau classement compte '+fmt(Math.abs(k-1)*100,0)+' % de condamnations '+(k>1?'en plus':'en moins')+' dans ce groupe.</b> Les années avant 2015 sont donc multipliées par '+fmt(k,2)+' pour rester comparables. La dernière année est incomplète : certaines décisions ne sont pas encore enregistrées.';
   }
+
+
+  // ---------- Fenêtre R (code + console) ----------
+  var RC={"detenus":{"code":"detenus <- simuler_detenus(effet_samedi = 350, graine = 2026)\ncvs <- desaisonnaliser_detenus(detenus)   # X-13ARIMA-SEATS (seasonal)\nround(cvs$coef_samedi)                    # effet d'un samedi en plus\nround(cvs$ic95)                           # marge d'incertitude à 95 %\ncvs$atypiques                             # détectés automatiquement","console":"> detenus <- simuler_detenus(effet_samedi = 350, graine = 2026)\n> cvs <- desaisonnaliser_detenus(detenus)\n> round(cvs$coef_samedi)\n[1] -361\n> round(cvs$ic95)\n[1] -405 -316\n> cvs$atypiques\n# A tibble: 8 × 3\n  type                      date     effet\n  <chr>                     <chr>    <dbl>\n1 Point atypique (AO)       2020.Apr -2509\n2 Changement de niveau (LS) 2020.Apr -8704\n3 Point atypique (AO)       2020.Jun -2520\n4 Changement de niveau (LS) 2020.Jun  4298\n5 Point atypique (AO)       2020.Jul -1304\n6 Changement de niveau (LS) 2020.Sep  1443\n7 Changement de niveau (LS) 2020.Nov   959\n8 Changement de niveau (LS) 2021.Jan  1584"},"enquete":{"code":"enquete <- simuler_enquete_associations(n_assoc = 140, graine = 2026)\ntaux_reponse(enquete)\nestimer_total_victimes(enquete) |>\n  select(estimation, total, ic_bas, ic_haut, ecart_pct)","console":"> enquete <- simuler_enquete_associations(n_assoc = 140, graine = 2026)\n> taux_reponse(enquete)\n# A tibble: 3 × 4\n  taille  associations repondantes `taux de réponse (%)`\n  <fct>          <int>       <int>                 <dbl>\n1 Petite            75          35                  46.7\n2 Moyenne           44          26                  59.1\n3 Grande            21          15                  71.4\n> estimer_total_victimes(enquete) |>\n+   select(estimation, total, ic_bas, ic_haut, ecart_pct)\n# A tibble: 4 × 5\n  estimation                    total ic_bas ic_haut ecart_pct\n  <chr>                         <dbl>  <dbl>   <dbl>     <dbl>\n1 Vraie valeur (simulée)       248416     NA      NA       0  \n2 Sans pondération             330394 265163  395626      33  \n3 Post-stratification (taille) 279460 250716  308204      12.5\n4 Calage (taille + salariés)   242892 235813  249970      -2.2"},"prudhommes":{"code":"prud <- simuler_prudhommes(n_conseils = 40, graine = 2026)\nanomalies <- controler_prudhommes(prud)\ncount(anomalies, controle)\nsimuler_recette(prud) |>\n  comparer_chaines(seuil_pct = 1) |>\n  count(statut)","console":"> prud <- simuler_prudhommes(n_conseils = 40, graine = 2026)\n> anomalies <- controler_prudhommes(prud)\n> count(anomalies, controle)\n# A tibble: 6 × 2\n  controle                                                n\n  <chr>                                               <int>\n1 Doublon conseil × année                                 2\n2 Durée médiane improbable                                1\n3 Stock final ≠ stock initial + nouvelles − terminées     3\n4 Stock initial ≠ stock final de l'année précédente       1\n5 Valeur manquante                                        1\n6 Valeur négative                                         1\n> simuler_recette(prud) |>\n+   comparer_chaines(seuil_pct = 1) |>\n+   count(statut)\n# A tibble: 3 × 2\n  statut                                n\n  <fct>                             <int>\n1 Conforme                            160\n2 Écart expliqué (affaires jointes)   117\n3 Anomalie à corriger                   1"},"condamnations":{"code":"cond <- simuler_condamnations(annee_rupture = 2015)\nrac  <- raccorder_series(cond, annee_rupture = 2015)\nrac$coefficients\nrac$serie |> filter(regroupement == \"Stupéfiants\", annee %in% c(2013:2016, 2024))","console":"> cond <- simuler_condamnations(annee_rupture = 2015)\n> rac  <- raccorder_series(cond, annee_rupture = 2015)\n> rac$coefficients\n# A tibble: 5 × 4\n  regroupement            Ancienne Nouvelle coef_raccordement\n  <chr>                      <dbl>    <dbl>             <dbl>\n1 Atteintes aux biens       141474   141474              1   \n2 Atteintes aux personnes   111133   111133              1   \n3 Autres                     69619    64026              0.92\n4 Circulation routière      184553   184553              1   \n5 Stupéfiants                69914    75507              1.08\n> rac$serie |> filter(regroupement == \"Stupéfiants\", annee %in% c(2013:2016, 2024))\n# A tibble: 5 × 5\n  regroupement annee provisoire brute raccordee\n  <chr>        <int> <lgl>      <dbl>     <dbl>\n1 Stupéfiants   2013 FALSE      68163     73616\n2 Stupéfiants   2014 FALSE      67831     73257\n3 Stupéfiants   2015 FALSE      75507     75507\n4 Stupéfiants   2016 FALSE      76906     76906\n5 Stupéfiants   2024 TRUE       82398     82398"}};
+  var FICHIERS={detenus:'R/01_detenus_desaisonnalisation.R',enquete:'R/02_enquete_associations.R',prudhommes:'R/03_prudhommes_controles_recette.R',condamnations:'R/04_condamnations_series_longues.R'};
+  var esc=function(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+  function hl(line){
+    var re=/(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(\b\d+(?:\.\d+)?\b)|(\b(?:function|if|else|for|in|TRUE|FALSE|NULL|NA)\b)|([A-Za-z_.][A-Za-z0-9_.]*)(?=\()|(<-|\|>|%in%|==|\$)/g;
+    var out='',last=0,m;
+    while((m=re.exec(line))){
+      out+=esc(line.slice(last,m.index));
+      var c=m[1]?'k-com':m[2]?'k-str':m[3]?'k-num':m[4]?'k-kw':m[5]?'k-fun':'k-op';
+      out+='<span class="'+c+'">'+esc(m[0])+'</span>';last=re.lastIndex;
+    }
+    return out+esc(line.slice(last));
+  }
+  function fenetreR(cle){
+    var r=RC[cle],lignes=r.code.split('\n');
+    var gut=lignes.map(function(_,i){return i+1;}).join('\n');
+    var cons=r.console.split('\n').map(function(l){
+      if(/^[>+] /.test(l))return '<span class="pr">'+l.slice(0,1)+'</span> '+hl(l.slice(2));
+      return '<span class="out">'+esc(l)+'</span>';
+    }).join('\n');
+    return '<div class="rwin" role="region" aria-label="Code R et console">'+
+      '<div class="rbar"><span class="rtab on">'+FICHIERS[cle].split('/').pop()+'</span><span class="rtab">run_all.R</span><span class="rtab">app.R</span></div>'+
+      '<div class="rcode"><pre class="rgut" aria-hidden="true">'+gut+'</pre><pre class="rsrc">'+lignes.map(hl).join('\n')+'</pre></div>'+
+      '<div class="rlab"><span>Console</span><span>R 4.3 · '+FICHIERS[cle]+'</span></div>'+
+      '<pre class="rcons">'+cons+'</pre></div>'+
+      '<p class="rnote">Extrait réel du projet : ce code a été exécuté pour produire les résultats de cette carte.</p>';
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.rbtn'),function(b){
+    b.addEventListener('click',function(){
+      var pane=document.getElementById(b.dataset.pane),vue=document.getElementById(b.dataset.vue);
+      if(!pane.innerHTML)pane.innerHTML=fenetreR(b.dataset.cle);
+      var montrer=pane.classList.contains('hide');
+      pane.classList.toggle('hide',!montrer);vue.classList.toggle('hide',montrer);
+      b.textContent=montrer?'Voir le résultat':'Code R';
+      var tb=b.parentNode.querySelector('#tblBtn');if(tb)tb.disabled=montrer;
+    });
+  });
 
   // ---------- Filtres ----------
   var sel=document.getElementById('fGroupe');
