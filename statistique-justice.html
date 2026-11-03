@@ -50,6 +50,7 @@ button:hover,.btn:hover{border-color:var(--brand2)}
 .two{grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
 .card h2{font-size:15px;margin:0 0 2px}
+.cdd{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand2);margin-bottom:4px}
 .card .desc{font-size:12.5px;color:var(--muted);margin:0 0 10px}
 .tile .lab{font-size:12px;color:var(--muted);font-weight:600}
 .tile .val{font-size:28px;font-weight:750;margin:4px 0 2px;letter-spacing:-.01em}
@@ -109,7 +110,7 @@ footer a{color:var(--ink2)}
 <header><div class="wrap">
   <div class="kick"><a href="./">Démo · Portfolio Mor Talla DIENG</a></div>
   <h1>Statistique publique – domaine de la justice</h1>
-  <div class="sub">Quatre exemples de travaux d'un service statistique public, réalisés avec le logiciel R sur des données fictives.</div>
+  <div class="sub">Quatre exemples réalisés avec le logiciel R sur des données fictives, un pour chacun des 4 CDD du SSER : soutien aux enquêtes, Portalis, ASTREA et désaisonnalisation.</div>
 </div></header>
 
 <div class="wrap">
@@ -138,7 +139,7 @@ footer a{color:var(--ink2)}
 
   <div class="grid two">
     <div class="card">
-      <div class="row-head"><div><h2>Nombre de détenus au 1er du mois</h2><p class="desc">Courbe claire : le chiffre brut. Courbe foncée : le chiffre corrigé des effets de saison et de calendrier (CVS-CJO), qui permet de comparer un mois au précédent.</p></div>
+      <div class="row-head"><div><span class="cdd">CDD Désaisonnalisation</span><h2>Nombre de détenus au 1er du mois</h2><p class="desc">Courbe claire : le chiffre brut. Courbe foncée : le chiffre corrigé des effets de saison et de calendrier (CVS-CJO), qui permet de comparer un mois au précédent.</p></div>
       <div class="btns"><button class="toggle" type="button" id="tblBtn">Voir le tableau</button><button class="toggle rbtn" type="button" data-pane="rDet" data-vue="vDet" data-cle="detenus">Code R</button></div></div>
       <div class="vue" id="vDet">
       <div class="chart" id="cLine"></div>
@@ -148,7 +149,7 @@ footer a{color:var(--ink2)}
       <div class="rpane hide" id="rDet"></div>
     </div>
     <div class="card">
-      <h2>Pourquoi corriger l'effet des samedis ?</h2><p class="desc">Les sorties de prison ont surtout lieu le samedi. Un mois qui compte 5 samedis a donc plus de sorties, et moins de détenus le 1er du mois suivant. Les barres montrent l'écart moyen à la tendance.</p>
+      <h2>Pourquoi corriger l'effet des samedis ?</h2><p class="desc">Dans ces données fictives, les sorties de prison ont surtout lieu le samedi. Un mois qui compte 5 samedis a donc plus de sorties, et moins de détenus le 1er du mois suivant. Les barres montrent l'écart moyen à la tendance.</p>
       <div class="chart" id="cSam"></div>
       <p class="result" id="samResult"></p>
       <div class="scroll" id="tAtyp" style="margin-top:8px"></div>
@@ -157,7 +158,7 @@ footer a{color:var(--ink2)}
 
   <div class="grid two">
     <div class="card">
-      <div class="row-head"><div><h2>Corriger une enquête où tout le monde ne répond pas</h2><p class="desc">On estime le nombre total de victimes aidées par les associations. Les petites associations répondent moins souvent. Chaque point est une estimation, le trait autour sa marge d'incertitude, la ligne pointillée la vraie valeur.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rEnq" data-vue="vEnq" data-cle="enquete">Code R</button></div></div>
+      <div class="row-head"><div><span class="cdd">CDD Soutien aux enquêtes</span><h2>Corriger une enquête où tout le monde ne répond pas</h2><p class="desc">On estime le nombre total de victimes aidées par les associations. Les petites associations répondent moins souvent. Chaque point est une estimation, le trait autour sa marge d'incertitude, la ligne pointillée la vraie valeur.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rEnq" data-vue="vEnq" data-cle="enquete">Code R</button></div></div>
       <div class="vue" id="vEnq">
       <div class="chart" id="cEst"></div>
       <p class="result" id="estResult"></p>
@@ -173,12 +174,12 @@ footer a{color:var(--ink2)}
 
   <div class="grid two">
     <div class="card">
-      <div class="row-head"><div><h2>Prud'hommes : vérifier les données avant de calculer</h2><p class="desc">Six vérifications automatiques repèrent les erreurs dans les données de 40 conseils fictifs. Exemple : le stock de fin d'année doit égaler le stock de début, plus les nouvelles affaires, moins les affaires terminées.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rCph" data-vue="vCph" data-cle="prudhommes">Code R</button></div></div>
+      <div class="row-head"><div><span class="cdd">CDD Portalis – civil et prud'hommes</span><h2>Prud'hommes : vérifier les données avant de calculer</h2><p class="desc">Six vérifications automatiques repèrent les erreurs dans les données de 40 conseils fictifs. Exemple : le stock de fin d'année doit égaler le stock de début, plus les nouvelles affaires, moins les affaires terminées.</p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rCph" data-vue="vCph" data-cle="prudhommes">Code R</button></div></div>
       <div class="vue" id="vCph"><div class="health" id="health"></div></div>
       <div class="rpane hide" id="rCph"></div>
     </div>
     <div class="card">
-      <h2>Vérifier qu'un nouveau programme donne les bons résultats</h2><p class="desc">Chaque point compare, pour un conseil et une année, les affaires terminées calculées par l'ancien programme (horizontal) et par le nouveau (vertical). Sur la diagonale, les deux sont d'accord.</p>
+      <h2>Vérifier qu'un nouveau programme donne les bons résultats</h2><p class="desc">C'est la recette d'une nouvelle chaîne, comme lors du passage à Portalis. Chaque point compare, pour un conseil et une année, les affaires terminées calculées par l'ancien programme (horizontal) et par le nouveau (vertical). Sur la diagonale, les deux sont d'accord.</p>
       <div class="chart" id="cRec"></div>
       <div class="legend"><span><span class="sw" style="background:var(--s1)"></span>Identique</span><span><span class="sw" style="background:var(--s2)"></span>Écart dû à une nouvelle règle</span><span><span class="sw" style="background:var(--crit)"></span>Erreur à corriger</span></div>
       <p class="result" id="recResult"></p>
@@ -187,11 +188,12 @@ footer a{color:var(--ink2)}
 
   <div class="grid">
     <div class="card">
-      <div class="row-head"><div><h2>Condamnations : comparer les années malgré un changement de classement</h2><p class="desc" id="serDesc"></p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rSer" data-vue="vSer" data-cle="condamnations">Code R</button></div></div>
+      <div class="row-head"><div><span class="cdd">CDD ASTREA – condamnations</span><h2>Condamnations : comparer les années malgré une cassure dans les données</h2><p class="desc" id="serDesc"></p></div><div class="btns"><button class="toggle rbtn" type="button" data-pane="rSer" data-vue="vSer" data-cle="condamnations">Code R</button></div></div>
       <div class="vue" id="vSer">
       <div class="chart" id="cSer"></div>
       <div class="legend"><span><span class="sw dash"></span>Chiffres mis bout à bout (avec cassure)</span><span><span class="sw" style="background:var(--s1)"></span>Série corrigée, comparable dans le temps</span><span>○ Dernière année, encore incomplète</span></div>
       <p class="result" id="serResult"></p>
+      <p class="rnote">La même méthode s'applique au passage de l'ancien casier judiciaire (NCJ-V2) à ASTREA : comparer les deux sources sur une période commune, puis raccorder les séries.</p>
       </div>
       <div class="rpane hide" id="rSer"></div>
     </div>
